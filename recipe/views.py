@@ -7,7 +7,7 @@ from recipe import serializers
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
-    """Manage recipes in the database"""
+    """API endpoint that allows Recipe to view or edit"""
      #here RecipeSerializer ->change-> RecipeDetailSerializer
     serializer_class = serializers.RecipeDetailSerializer
     queryset = Recipe.objects.all() #object avliable for viewset
