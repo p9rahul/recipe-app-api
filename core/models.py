@@ -61,3 +61,14 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Employee(models.Model):
+    """Employee ORM objects"""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    empName = models.CharField(max_length=255)
+    gender = models.CharField(max_length=1)
+    empAddress = models.CharField(max_length=255)
+    department = models.CharField(max_length=10)
