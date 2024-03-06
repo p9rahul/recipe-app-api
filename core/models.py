@@ -68,7 +68,11 @@ class Employee(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
     )
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+    )
     empName = models.CharField(max_length=255)
-    gender = models.CharField(max_length=1)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     empAddress = models.CharField(max_length=255)
     department = models.CharField(max_length=10)
