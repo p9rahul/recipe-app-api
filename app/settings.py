@@ -144,3 +144,13 @@ AUTH_USER_MODEL = 'core.User'
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS' :'drf_spectacular.openapi.AutoSchema',
 }
+
+SPECTACULAR_SETTINGS = {
+        'TITLE' : "Pandey World API'S",
+        'DESCRIPTION': 'Recipe, Tag, Ingredent, Emp',
+        'VERSION': '1.0.0',
+        # 'SERVE_INCLUDE_SCHEMA': True,
+        # https://drf-spectacular.readthedocs.io/en/latest/blueprints.html
+        # 'SWAGGER_UI_FAVICON_HREF': 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest/favicon-32x32.png',
+        #  "SWAGGER_UI_FAVICON_HREF": settings.STATIC_URL + "your_company_favicon.png",
+}

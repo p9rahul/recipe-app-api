@@ -9,6 +9,10 @@ class EmployeeSerializer(serializers.ModelSerializer):
         fields = ['id','empName','gender','empAddress','department']
         read_only_fields = ('id',)
 
+    
+    # - We can write a different class for validation and inherit in model sterilizer class
+    # - In the class also ex - def method
+    # - Validate Gender doesn't contain either M or F -> this can be pass in model class as choices
     def validate(self, data):
         
         if data['empName']:
@@ -16,6 +20,6 @@ class EmployeeSerializer(serializers.ModelSerializer):
                 if n.isdigit():
                     raise serializers.ValidationError({'error': 'Name cannot be numeric'})
                 
-        #Validate Gender doesn't contain either M or F -> this can be pass in model class as choices
+    
                 
         return data

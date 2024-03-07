@@ -8,13 +8,12 @@ PermissionsMixin
 from django.conf import settings
 
 
+#**extra_fields - can provide any number of keyword arguments ,
+#it means if we create any fileds in user class no need to update here again and again  
 class UserManager(BaseUserManager):
 
     def create_user(self, email, password=None, **extra_fields):
-        """Creates and saves a new user
-        **extra_fields - can provide any number of keyword arguments ,
-          it means if we create any fileds in user class no need to update here again and again 
-        """
+        """Creates and saves a new user"""
         if not email:
             raise ValueError('Users must have an email address')
         user = self.model(email=self.normalize_email(email), **extra_fields)
@@ -32,12 +31,10 @@ class UserManager(BaseUserManager):
 
         return user
 
+# AbstractBaseUser - functionlaity for auth system 
+# PermissionsMixin - Functionality for the permissions and fields
 class User(AbstractBaseUser, PermissionsMixin):
-    """Custom user model that suppors using email instead of username
-    AbstractBaseUser - functionlaity for auth system 
-    PermissionsMixin - Functionality for the permissions and fields
-    
-    """
+    """Custom user model that suppors using email instead of username"""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
@@ -58,10 +55,34 @@ class Recipe(models.Model):
     price = models.DecimalField(max_digits=5, decimal_places=2)
     link = models.CharField(max_length=255, blank=True)
     description =  models.CharField(max_length=255, blank=True)
+    tags = models.ManyToManyField('Tag')  #many to many relation
+    ingredients = models.ManyToManyField('Ingredient')
 
     def __str__(self):
         return self.title
     
+class Tag(models.Model):
+    """Tag for filtering recipes."""
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return self.name
+
+class Ingredient(models.Model):
+    """Tag for filtering recipes."""
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return self.name
+
 class Employee(models.Model):
     """Employee ORM objects"""
     user = models.ForeignKey(
@@ -76,3 +97,4 @@ class Employee(models.Model):
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     empAddress = models.CharField(max_length=255)
     department = models.CharField(max_length=10)
+

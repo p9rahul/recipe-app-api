@@ -8,6 +8,8 @@ router = DefaultRouter()
 # router.register('tags', views.TagViewSet)
 # router.register('ingredients', views.IngredientViewSet)
 router.register('recipes', views.RecipeViewSet)
+router.register('tags',views.TagViewset)
+router.register('ingredients',views.IngredientViewset)
 
 app_name = 'recipe'
 
