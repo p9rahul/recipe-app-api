@@ -1,3 +1,7 @@
+#To generate uuid and os for file path management functions 
+import uuid
+import os
+
 from django.db import models
 from django.contrib.auth.models import (
 AbstractBaseUser,
@@ -7,7 +11,17 @@ PermissionsMixin
 
 from django.conf import settings
 
+#Function for to generate a path for image upload
+def recipe_image_file_path(instance, filename):
+    """Generate file path for new recipe image"""
+    ext = os.path.splitext(filename)[1]
+    # ext = filename.split('.')[-1] #from git
+    filename = f'{uuid.uuid4()}.{ext}' 
 
+    # return os.path.join('uploads/recipe/', filename) #from git
+    return os.path.join('uploads','recipe', filename)
+
+# ***********************************************************
 #**extra_fields - can provide any number of keyword arguments ,
 #it means if we create any fileds in user class no need to update here again and again  
 class UserManager(BaseUserManager):
@@ -45,24 +59,25 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
 
 class Recipe(models.Model):
-    """Recipe object"""
+    """Recipe"""
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
     )
     title = models.CharField(max_length=255)
-    time_minutes = models.IntegerField()
-    price = models.DecimalField(max_digits=5, decimal_places=2)
-    link = models.CharField(max_length=255, blank=True)
+    time_minutes = models.IntegerField(default=0)
+    price = models.DecimalField(max_digits=5, decimal_places=2,default='0')
+    link = models.CharField(max_length=255, blank=True,default='http://go.com')
     description =  models.CharField(max_length=255, blank=True)
     tags = models.ManyToManyField('Tag')  #many to many relation
     ingredients = models.ManyToManyField('Ingredient')
+    image = models.ImageField(null=True, upload_to=recipe_image_file_path)
 
     def __str__(self):
         return self.title
     
 class Tag(models.Model):
-    """Tag for filtering recipes."""
+    """Tag"""
     name = models.CharField(max_length=255)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -73,7 +88,7 @@ class Tag(models.Model):
         return self.name
 
 class Ingredient(models.Model):
-    """Tag for filtering recipes."""
+    """Ingredient"""
     name = models.CharField(max_length=255)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -84,7 +99,7 @@ class Ingredient(models.Model):
         return self.name
 
 class Employee(models.Model):
-    """Employee ORM objects"""
+    """Employee"""
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE

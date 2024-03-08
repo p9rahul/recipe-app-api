@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from django.conf import settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -131,7 +132,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+# Image upload API
+# STATIC_URL = 'static/'
+STATIC_URL = '/static/static/'
+MEDIA_URL ='/static/media/'
+
+MEDIA_ROOT ='/vol/web/media'
+STATIC_ROOT ='/vol/web/static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -149,6 +156,7 @@ SPECTACULAR_SETTINGS = {
         'TITLE' : "Pandey World API'S",
         'DESCRIPTION': 'Recipe, Tag, Ingredent, Emp',
         'VERSION': '1.0.0',
+        'COMPONENT_SPLIT_REQUEST' :True, #for image 
         # 'SERVE_INCLUDE_SCHEMA': True,
         # https://drf-spectacular.readthedocs.io/en/latest/blueprints.html
         # 'SWAGGER_UI_FAVICON_HREF': 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest/favicon-32x32.png',
